@@ -37,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ✅ Fixed routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use(express.urlencoded({extended: true}));
 
 app.get("/listings", async(req,res)=>{
   let allListings = await Listing.find({});
@@ -67,6 +68,17 @@ app.get("/listings", async(req,res)=>{
 //     res.status(500).send("Error saving data");
 //   }
 // });
+
+app.get("/listings/new", (req, res) => {
+  res.render("listings/new.ejs");
+})
+
+//show route
+app.get("/listings/:id", async (req, res) => {
+  let {id} = req.params;
+  const listing = await Listing.findById(id);
+  res.render("listings/show.ejs", {listing});
+});
 
 
 

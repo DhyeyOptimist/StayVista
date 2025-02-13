@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Desired Property</title>
+    <link rel="stylesheet" href="/stylesheets/show.css">
+</head>
+<body><ul>
+    <li> <h3><%=listing.title%></h3></li><br> <!-- here listing is model so that data is coming from model -->
+            <li><b>Property Details: </b><%=listing.description%></li><br>
+            <li><img class="allimg" src="<%=listing.image%>"></li><br>
+            <li>Price: &#8377;<%=(listing.price*86).toLocaleString("en-IN") %></li><br>
+            <li>location: <%=listing.location%></li><br>
+            <li>Country: <%=listing.country%></li><br>
+</ul>
+    
+</body>
+</html>
