@@ -12,6 +12,8 @@ const Listing = require("./models/listing");
 const app = express();
 const port = 8080;
 
+
+
 // ✅ Fix: Corrected MongoDB connection
 const MONGO_URL = "mongodb://127.0.0.1:27017/stayvista";
 
@@ -36,29 +38,35 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.get("/testListings", async (req, res) => {
-  try {
-    if (mongoose.connection.readyState !== 1) {
-      return res.status(500).send("Database not connected ❌");
-    }
-
-    let sampleListing = new Listing({
-      title: "JK farm",
-      description: "This is the best weekend farm for your family",
-      image: "",
-      price: 5000,
-      location: "Bakrol Vadtal Road, near Atmiya Empire",
-      country: "India",
-    });
-
-    await sampleListing.save();
-    console.log("✅ Data saved successfully");
-    res.send("Successful testing ✅");
-  } catch (err) {
-    console.error("❌ Error saving data:", err);
-    res.status(500).send("Error saving data");
-  }
+app.get("/listings", async(req,res)=>{
+  let allListings = await Listing.find({});
+  res.render("listings/index.ejs", {allListings});
 });
+
+
+// app.get("/testListings", async (req, res) => {
+//   try {
+//     if (mongoose.connection.readyState !== 1) {
+//       return res.status(500).send("Database not connected ❌");
+//     }
+
+//     let sampleListing = new Listing({
+//       title: "JK farm",
+//       description: "This is the best weekend farm for your family",
+//       image: "",
+//       price: 5000,
+//       location: "Bakrol Vadtal Road, near Atmiya Empire",
+//       country: "India",
+//     });
+
+//     await sampleListing.save();
+//     console.log("✅ Data saved successfully");
+//     res.send("Successful testing ✅");
+//   } catch (err) {
+//     console.error("❌ Error saving data:", err);
+//     res.status(500).send("Error saving data");
+//   }
+// });
 
 
 

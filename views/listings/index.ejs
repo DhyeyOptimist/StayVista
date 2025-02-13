@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayVista</title>
+    <link rel="stylesheet" href="/stylesheets/listing.css">
+</head>
+<body>
+    <h3> all listings</h3>
+    <ul>
+        <%for(let listing of allListings){ %>
+            <li><a href="/listings/<%= listing._id %>"> <%=listing.title%></a></li><br> <!-- here listing is model so that data is coming from model -->
+            <li><%=listing.description%></li><br>
+            <li><img class="allimg" src="<%=listing.image%>"></li><br>
+            <li><%=listing.price%></li><br>
+            <li><%=listing.location%></li><br>
+            <li><%=listing.country%></li><br>
+            <hr>
+        <%}%>
+    </ul>
+</body>
+</html>

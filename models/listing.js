@@ -8,24 +8,25 @@ const listingSchema = new Schema({
     },
     description: {
         type: String,
-        trim: true,
+        // trim: true,
     },
     image: {
         type: String,
+        default: "https://www.vectorstock.com/royalty-free-vectors/picture-not-available-vectors",
         set: (v) => v === ""? "https://www.vectorstock.com/royalty-free-vectors/picture-not-available-vectors" : v,
     },
     price: {
         type: Number,
-        min: 3000,
+        // min: 500,
     },
     location: {
         type: String,
-        required: true,
-        unique: true,
+        // required: true,
+        // unique: true,
     },
     country: {
         type: String,
-        enum: ["India","Nepal","Lakshadweep Islands","Andaban and Nicobar Islands"],
+        // enum: ["India","Nepal","Lakshadweep Islands","Andaban and Nicobar Islands","United States","Italy", "Mexico","Switzerland","Tanzania","Netherlands","Fiji","United Kingdom","Indonesia","Canada","Thailand","United Arab Emirates","Greece","Costa Rica", "Japan","Maldives"],
     },
 });
 
