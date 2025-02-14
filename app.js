@@ -80,6 +80,12 @@ app.get("/listings/:id", async (req, res) => {
   res.render("listings/show.ejs", {listing});
 });
 
+//create route
+
+app.post("/listings", async (req, res) => {
+
+});
+
 
 
 
