@@ -105,6 +105,13 @@ app.put("/listings/:id", async (req, res) => {
   res.redirect(`/listings/${id}`);
 });
 
+//delete route
+
+app.delete("/listings/:id", async (req, res) => {
+  let { id } = req.params;  //to id ne extract kari then ene
+  await Listing.findByIdAndDelete(id); // database ma find and delete
+  res.redirect("/listings");
+});
 
 
 // ✅ Debugging 404 errors
