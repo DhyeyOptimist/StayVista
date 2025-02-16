@@ -30,14 +30,13 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ✅ Fixed routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use(express.urlencoded({extended: true}));
 
 app.get("/listings", async(req,res)=>{
   let allListings = await Listing.find({});
@@ -69,6 +68,7 @@ app.get("/listings", async(req,res)=>{
 //   }
 // });
 
+//new route
 app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
 })
@@ -80,11 +80,16 @@ app.get("/listings/:id", async (req, res) => {
   res.render("listings/show.ejs", {listing});
 });
 
-//create route
-
+//create route --> db ma data pass thase and save thase (add data ma)
 app.post("/listings", async (req, res) => {
-
+  let listing = req.body.listing;
+  await new Listing(listing).save();
+  res.redirect("/listings");
 });
+
+//Update Route
+
+
 
 
 

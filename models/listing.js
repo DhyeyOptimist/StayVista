@@ -12,8 +12,8 @@ const listingSchema = new Schema({
     },
     image: {
         type: String,
-        default: "https://www.vectorstock.com/royalty-free-vectors/picture-not-available-vectors",
-        set: (v) => v === ""? "https://www.vectorstock.com/royalty-free-vectors/picture-not-available-vectors" : v,
+        default: "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-no-image-available-icon-flatvector-illustration-pic-design-profile-vector-png-image_40966566.jpg",
+        set: (v) => v === ""? "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-no-image-available-icon-flatvector-illustration-pic-design-profile-vector-png-image_40966566.jpg" : v,
     },
     price: {
         type: Number,
@@ -22,7 +22,7 @@ const listingSchema = new Schema({
     location: {
         type: String,
         // required: true,
-        // unique: true,
+        unique: false,
     },
     country: {
         type: String,
