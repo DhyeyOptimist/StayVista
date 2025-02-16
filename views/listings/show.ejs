@@ -6,7 +6,8 @@
     <title>Your Desired Property</title>
     <link rel="stylesheet" href="/stylesheets/show.css">
 </head>
-<body><ul>
+<body>
+    <ul>
     <li> <h3><%=listing.title%></h3></li><br> <!-- here listing is model so that data is coming from model -->
             <li><b>Property Details: </b><%=listing.description%></li><br>
             <li><img class="allimg" src="<%=listing.image%>"></li><br>
@@ -14,6 +15,9 @@
             <li>location: <%=listing.location%></li><br>
             <li>Country: <%=listing.country%></li><br>
 </ul>
+<a href="/listings/<%= listing._id %>/edit">
+    <button>Edit</button>
+</a>
     
 </body>
 </html>

@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const createError = require('http-errors');
+const methodOverride = require('method-override');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride("_method"));
 
 // ✅ Fixed routes
 app.use('/', indexRouter);
@@ -75,8 +77,8 @@ app.get("/listings/new", (req, res) => {
 
 //show route
 app.get("/listings/:id", async (req, res) => {
-  let {id} = req.params;
-  const listing = await Listing.findById(id);
+  let {id} = req.params; //to id ne extract kari then ene 
+  const listing = await Listing.findById(id); // database ma find kari
   res.render("listings/show.ejs", {listing});
 });
 
@@ -87,11 +89,21 @@ app.post("/listings", async (req, res) => {
   res.redirect("/listings");
 });
 
-//Update Route
+//Update Route 2 methods to update
+//edit route
+ app.get("/listings/:id/edit", async (req, res) => {
+  let {id} = req.params;  //to id ne extract kari then ene
+  const listing = await Listing.findById(id); // database ma find kari
+  res.render("listings/edit.ejs", {listing});
+ });
 
+//for updating (put request)
 
-
-
+app.put("/listings/:id", async (req, res) => {
+  let {id} = req.params;  //to id ne extract kari then ene
+  await Listing.findByIdAndUpdate(id, { ...req.body.listing }); // database ma find and update
+  res.redirect(`/listings/${id}`);
+});
 
 
 
