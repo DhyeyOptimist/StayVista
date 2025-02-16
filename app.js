@@ -104,6 +104,8 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
+
+
 // ✅ Start server
 app.listen(port, () => {
   console.log(`🚀 Server running on http://localhost:${port}`);
