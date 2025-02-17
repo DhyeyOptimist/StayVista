@@ -9,6 +9,7 @@ const methodOverride = require('method-override');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const Listing = require("./models/listing");
+const ejsMate = require('ejs-mate');
 
 const app = express();
 const port = 8080;
@@ -35,6 +36,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride("_method"));
+app.engine('ejs', ejsMate);
 
 // ✅ Fixed routes
 app.use('/', indexRouter);

@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Property Listing</title>
-</head>
+
 <body>
+    <% layout('layouts/boilerplate') -%>
+
     <h3>Create a new Listing</h3><br>
     <form action="/listings" method="POST">
         <input type="text" name="listing[title]" placeholder="Enter Property Title"><br><br>
@@ -17,4 +13,3 @@
         <button type="submit">Add Listing</button>
     </form>
 </body>
-</html>

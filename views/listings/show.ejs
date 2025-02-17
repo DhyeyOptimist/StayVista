@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Desired Property</title>
-    <link rel="stylesheet" href="/stylesheets/show.css">
-</head>
+
 <body>
+    <% layout('layouts/boilerplate') -%>
     <ul>
     <li> <h3><%=listing.title%></h3></li><br> <!-- here listing is model so that data is coming from model -->
             <li><b>Property Details: </b><%=listing.description%></li><br>
@@ -24,4 +18,3 @@
 </form>
     
 </body>
-</html>
