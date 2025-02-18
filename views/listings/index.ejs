@@ -1,20 +1,30 @@
-<link rel = "stylesheet" href="/stylesheets/listing.css">
-<body>
-    <% layout('layouts/boilerplate') -%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stay Vista</title>
+    <link rel="stylesheet" href="/stylesheets/listing.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
 
-    <h3> Stay Vista</h3>
-    <form method="GET" action="/listings/new">
-        <button type="submit">Add Listing</button>
-    </form>
-    <ul>
-        <%for(let listing of allListings){ %>
-            <li><a href="/listings/<%= listing._id %>"> <%=listing.title%></a></li><br> <!-- here listing is model so that data is coming from model -->
-            <li><%=listing.description%></li><br>
-            <li><img class="allimg" src="<%=listing.image%>"></li><br>
-            <li>Price: &#8377;<%=(listing.price*86).toLocaleString("en-IN") %></li><br>
-            <li><%=listing.location%></li><br>
-            <li><%=listing.country%></li><br>
-            <hr>
-        <%}%>
-    </ul>
+    <% layout('layouts/boilerplate') %>
+
+    <div class="max-w-7xl mx-auto px-4 py-10">
+        <h3 class="text-3xl font-semibold mb-6">Stay Vista</h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <% for(let listing of allListings) { %>
+                <a href="/listings/<%= listing._id %>" class="block bg-white shadow-lg rounded-2xl overflow-hidden transform hover:scale-105 transition duration-300">
+                    <img class="w-full h-48 object-cover" src="<%= listing.image %>" alt="Listing Image">
+                    <div class="p-4">
+                        <h4 class="text-lg font-medium"><%= listing.title %></h4>
+                        <p class="text-gray-600 text-sm"><%= listing.location %></p>
+                    </div>
+                </a>
+            <% } %>
+        </div>
+    </div>
 </body>
+</html>
