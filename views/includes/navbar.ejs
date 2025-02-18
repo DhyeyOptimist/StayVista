@@ -1,0 +1,96 @@
+<nav class="navbar navbar-expand-md bg-white shadow-sm sticky-top py-3 borderbottom">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="/images/logo.svg" alt="StayVista Logo" width="40" height="40" class="d-inline-block logo">
+        </a>
+
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <!-- Main Navigation -->
+            <ul class="navbar-nav ms-auto mb-0">
+                <li class="nav-item px-2">
+                    <a class="nav-link fw-medium hover-underline" aria-current="page" href="/">
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item px-2">
+                    <a class="nav-link fw-medium hover-underline" href="/listings">
+                        All Listings
+                    </a>
+                </li>
+                <li class="nav-item px-2">
+                    <a class="nav-link fw-medium hover-underline" href="/listings/new">
+                        Add Listing
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Custom CSS -->
+<style>
+
+    
+/* Navbar height adjustment */
+.navbar {
+    min-height: 80px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Logo size management */
+.navbar-brand img {
+    max-height: 40px;
+    width: auto;
+}
+
+/* Nav link styling */
+.nav-link {
+    color: #2d3436 !important;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+/* Hover effect for nav links */
+.hover-underline::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #2d3436;
+    transition: width 0.3s ease;
+}
+
+.hover-underline:hover::after {
+    width: 100%;
+}
+
+/* Active link styling */
+.nav-link.active {
+    font-weight: 600 !important;
+}
+
+/* Mobile optimizations */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        padding: 1rem 0;
+    }
+    
+    .nav-item {
+        padding: 0.5rem 0;
+    }
+}
+
+/* Smooth transitions */
+.navbar-collapse {
+    transition: all 0.3s ease;
+}
+</style>
