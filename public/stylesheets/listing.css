@@ -1,4 +1,108 @@
-.allimg{
-    height: 100px;
-    width: 100px;
+/* Global Styles */
+:root {
+    --primary-color: #FF385C;
+    --text-color: #222222;
+    --secondary-text: #717171;
+    --background-color: #F7F7F7;
+    --card-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Circular', -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+/* Container Styles */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Header Styles */
+h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+/* Grid Layout */
+.listing-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 24px;
+    padding: 20px 0;
+}
+
+@media (min-width: 640px) {
+    .listing-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .listing-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .listing-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Listing Card Styles */
+.listing-card {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease;
+    text-decoration: none;
+    display: block;
+}
+
+.listing-card:hover {
+    transform: scale(1.02);
+}
+
+.listing-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.listing-content {
+    padding: 16px;
+}
+
+.listing-title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 4px;
+}
+
+.listing-location {
+    font-size: 0.875rem;
+    color: var(--secondary-text);
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.listing-card {
+    animation: fadeIn 0.5s ease;
 }

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md bg-white shadow-sm sticky-top py-3 borderbottom">
+<nav class="navbar navbar-expand-md bg-white shadow-sm sticky-top py-3">
     <div class="container">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="/">
@@ -11,9 +11,9 @@
         </button>
 
         <!-- Navbar Content -->
-        <div class="collapse navbar-collapse" id="navbarContent">
+        <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
             <!-- Main Navigation -->
-            <ul class="navbar-nav ms-auto mb-0">
+            <ul class="navbar-nav mb-2 mb-md-0">
                 <li class="nav-item px-2">
                     <a class="nav-link fw-medium hover-underline" aria-current="page" href="/">
                         Home
@@ -23,22 +23,18 @@
                     <a class="nav-link fw-medium hover-underline" href="/listings">
                         All Listings
                     </a>
-                    
                 </li>
                 <li class="nav-item px-2">
-                    <form action="/listings/new" method="GET">
-                        <button type="submit" class="nav-link fw-medium hover-underline">Add Listing</button>
-                    </form>
+                    <button type="submit" class="nav-link fw-medium hover-underline border-0 bg-transparent w-100 text-start">
+                        Add Listing
+                    </button>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<!-- Custom CSS -->
 <style>
-
-    
 /* Navbar height adjustment */
 .navbar {
     min-height: 80px;
@@ -56,6 +52,7 @@
     color: #2d3436 !important;
     position: relative;
     transition: color 0.3s ease;
+    padding: 0.5rem 1rem;
 }
 
 /* Hover effect for nav links */
@@ -80,12 +77,16 @@
 }
 
 /* Mobile optimizations */
-@media (max-width: 991.98px) {
+@media (max-width: 767.98px) {
     .navbar-collapse {
         padding: 1rem 0;
     }
     
     .nav-item {
+        padding: 0.5rem 0;
+    }
+    
+    .nav-link {
         padding: 0.5rem 0;
     }
 }

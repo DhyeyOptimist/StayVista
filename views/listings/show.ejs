@@ -1,21 +1,17 @@
-<link rel = "stylesheet" href="/stylesheets/show.css">
-
-<body>
-    <% layout('layouts/boilerplate') -%>
-    <ul>
-    <li> <h3><%=listing.title%></h3></li><br> <!-- here listing is model so that data is coming from model -->
-            <li><b>Property Details: </b><%=listing.description%></li><br>
-            <li><img class="allimg" src="<%=listing.image%>"></li><br>
-            <li>Price: &#8377;<%=(listing.price*86).toLocaleString("en-IN") %></li><br>
-            <li>location: <%=listing.location%></li><br>
-            <li>Country: <%=listing.country%></li><br>
+<% layout('layouts/boilerplate') %>
+<ul>
+    <li><h3><%=listing.title%></h3></li><br>
+    <li><b>Property Details: </b><%=listing.description%></li><br>
+    <li><img class="allimg" src="<%=listing.image%>"></li><br>
+    <li>Price: &#8377;<%=(listing.price*86).toLocaleString("en-IN") %></li><br>
+    <li>location: <%=listing.location%></li><br>
+    <li>Country: <%=listing.country%></li><br>
 </ul>
+
 <a href="/listings/<%= listing._id %>/edit">
     <button>Edit</button>
 </a><br><br>
 
 <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
-    <button >Delete</button>
+    <button>Delete</button>
 </form>
-    
-</body>
