@@ -3,7 +3,9 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  res.send("Hi,I am root path");
+  setTimeout(() => {
+    res.redirect('/listings');
+  }, 1000); // 1000ms = 1 second delay
 });
 
 module.exports = router;
