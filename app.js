@@ -43,9 +43,11 @@ app.engine('ejs', ejsMate);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.get("/listings", async(req,res)=>{
+app.get("/listings", async(req,res)=>{ 
   let allListings = await Listing.find({});
+  // console.log(allListings);
   res.render("listings/index.ejs", {allListings});
+
 });
 
 
