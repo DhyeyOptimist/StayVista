@@ -2,42 +2,42 @@
 
     <% layout('layouts/boilerplate') -%>
 
-    <form>
+
 
     <div class="row">
         <div class="col-8 offset-2"><br>
     <h3>Edit Existing Listing</h3>
 
             <br>
-            <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
+            <form method="POST" action="/listings/<%= listing._id %>?_method=PUT"  novalidate class="needs-validation">
 
         <div class="mb-1">
             <label for="title" class="form-label">Edit Title:
             </label>
-        <input type="text" name="listing[title]" placeholder="Enter Property Title" class="form-control" value="<%=listing.title%>"><br>
+        <input type="text" name="listing[title]" placeholder="Enter Property Title" class="form-control" value="<%=listing.title%>" required><br>
         </div>
 
         <div class="mb-1">
             <label for="description" class="form-label">Edit Description:</label>
-        <textarea name="listing[description]" placeholder="Enter Property Description"  class="form-control" value=""><%=listing.description%></textarea><br>
+        <textarea name="listing[description]" placeholder="Enter Property Description"  class="form-control" value="" required><%=listing.description%></textarea><br>
         </div>
 
         <div class="mb-md-1">
             <label for="image" class="form-label">Edit Image URL:</label>
-        <input type="text" name="listing[image]" placeholder="Enter Property Image URL" class="form-control" value="<%=listing.image%>" > - add new url here<br>
+        <input type="text" name="listing[image]" placeholder="Enter Property Image URL" class="form-control" value="<%=listing.image%>" required > - add new url here<br>
         </div>
 
 <!-- Price and country -->
         <div class="row">
         <div class="mb-1 col-md-4">
             <label for="price" class="form-label">Edit Price:</label>
-        <input type="number" name="listing[price]" placeholder="Enter Property Price" class="form-control" value="<%=listing.price%>"><br>
+        <input type="number" name="listing[price]" placeholder="Enter Property Price" class="form-control" value="<%=listing.price%>" required><br>
 
 
         </div>
         <div class="mb-1 col-8">
             <label for="country" class="form-label">Edit Country:</label>
-        <input type="text" name="listing[country]" placeholder="Enter Property Country" class="form-control" value="<%=listing.country%>"><br>
+        <input type="text" name="listing[country]" placeholder="Enter Property Country" class="form-control" value="<%=listing.country%>" required><br>
 
 
         </div>
@@ -54,3 +54,4 @@
     </form>
 </div>
 </div>
+<script src="/js/script.js"></script>

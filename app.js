@@ -10,6 +10,9 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const Listing = require("./models/listing");
 const ejsMate = require('ejs-mate');
+const wrapAsync = require("./utils/wrapAsync");
+const expressError = require("./utils/expressErrors.js");
+
 
 const app = express();
 const port = 8080;
@@ -43,12 +46,12 @@ app.engine('ejs', ejsMate);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.get("/listings", async(req,res)=>{ 
+app.get("/listings", wrapAsync(async(req,res)=>{ 
   let allListings = await Listing.find({});
   // console.log(allListings);
   res.render("listings/index.ejs", {allListings});
 
-});
+}));
 
 
 // app.get("/testListings", async (req, res) => {
@@ -81,58 +84,72 @@ app.get("/listings/new", (req, res) => {
 })
 
 //show route
-app.get("/listings/:id", async (req, res) => {
+app.get("/listings/:id", wrapAsync(async (req, res) => {
   let {id} = req.params; //to id ne extract kari then ene 
   const listing = await Listing.findById(id); // database ma find kari
   res.render("listings/show.ejs", {listing});
-});
+}));
 
 //create route --> db ma data pass thase and save thase (add data ma)
-app.post("/listings", async (req, res) => {
-  let listing = req.body.listing;
-  await new Listing(listing).save();
-  res.redirect("/listings");
-});
+app.post("/listings", wrapAsync(async (req, res ,next) => {
+  
+    let listing = req.body.listing;
+    await new Listing(listing).save();
+    res.redirect("/listings");
+
+})
+);
 
 //Update Route 2 methods to update
 //edit route
- app.get("/listings/:id/edit", async (req, res) => {
+ app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
   let {id} = req.params;  //to id ne extract kari then ene
   const listing = await Listing.findById(id); // database ma find kari
   res.render("listings/edit.ejs", {listing});
- });
+ }));
 
 //for updating (put request)
 
-app.put("/listings/:id", async (req, res) => {
+app.put("/listings/:id", wrapAsync(async (req, res) => {
   let {id} = req.params;  //to id ne extract kari then ene
   await Listing.findByIdAndUpdate(id, { ...req.body.listing }); // database ma find and update
   res.redirect(`/listings/${id}`);
-});
+}));
 
 //delete route
 
-app.delete("/listings/:id", async (req, res) => {
+app.delete("/listings/:id", wrapAsync(async (req, res) => {
   let { id } = req.params;  //to id ne extract kari then ene
   await Listing.findByIdAndDelete(id); // database ma find and delete
   res.redirect("/listings");
+}));
+
+app.all("*",(req,res,next)=>{
+  next(new expressError(404,"If you find this page, let us know—we lost it too"));
 });
 
+//expressError middle ware 
 
-// ✅ Debugging 404 errors
-app.all("*", (req, res, next) => {
-  console.log(`❌ Route not found: ${req.originalUrl}`);
-  next(createError(404));
-});
+app.use((err,req,res,next)=>{
+  let{statusCode = 500, message = "Congratulations! You’ve discovered a secret void."} = err;
+  // res.status(statusCode).send(message);
+  res.render("error.ejs",{ message });
+});  
+
+// ✅ Debugging 404 errors2
+// app.all("*", (req, res, next) => {
+//   console.log(`❌ Route not found: ${req.originalUrl}`);
+//   next(createError(404));
+// });
+
 
 // ✅ Error handler
-app.use(function (err, req, res, next) {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  res.status(err.status || 500);
-  res.render('error');
-});
-
+// app.use(function (err, req, res, next) {
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
 
 
 // ✅ Start server

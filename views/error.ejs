@@ -1,3 +1,87 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<% layout('layouts/boilerplate') -%>
+
+<div class="row">
+    <div class="alert alert-danger col-6 offset-3" role="alert">
+        <h4><%= message %></h4>
+    </div>
+</div>
+<!-- <div class="error-container">
+    <div class="error-box">
+        <h1>404</h1>
+        <p>Oops! Page Not Found</p>
+        <div class="error-links">
+            <a href="/" class="btn home-btn">Go Home</a>
+            <a href="#" onclick="window.history.back();" class="btn back-btn">Go Back</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .error-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f0f2f5;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .error-box {
+        text-align: center;
+        background-color: white;
+        padding: 3rem;
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .error-box h1 {
+        font-size: 6rem;
+        color: #3498db;
+        margin-bottom: 1rem;
+    }
+
+    .error-box p {
+        color: #2c3e50;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .error-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .btn {
+        text-decoration: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .home-btn {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .back-btn {
+        background-color: #ecf0f1;
+        color: #2c3e50;
+    }
+
+    @media (max-width: 480px) {
+        .error-box {
+            padding: 2rem;
+            width: 90%;
+        }
+
+        .error-links {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+    }
+</style> -->
