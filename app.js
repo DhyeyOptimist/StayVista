@@ -12,7 +12,7 @@ const Listing = require("./models/listing");
 const ejsMate = require('ejs-mate');
 const wrapAsync = require("./utils/wrapAsync");
 const expressError = require("./utils/expressErrors.js");
-
+const { ListingSchema } = require("./schema.js");
 
 const app = express();
 const port = 8080;
@@ -41,6 +41,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
+
+const validateListing = (req,res,next)=>{
+  let {error} = ListingSchema.validate(req.body);
+
+  if(error){
+    let errMsg = error.details.map(el => el.message).join(",");
+    throw new expressError(400, errMsg);
+  }else{ 
+    next();
+  }
+};
 
 // ✅ Fixed routes
 app.use('/', indexRouter);
@@ -91,11 +102,11 @@ app.get("/listings/:id", wrapAsync(async (req, res) => {
 }));
 
 //create route --> db ma data pass thase and save thase (add data ma)
-app.post("/listings", wrapAsync(async (req, res ,next) => {
+app.post(
+  "/listings", 
+  validateListing,
+  wrapAsync(async (req, res ,next) => {
   
-   if(!req.body.Listing){
-    throw new expressError(400,"send valid data");
-   }
 
     const newListing = new Listing(req.body.listing);
     await newListing.save();
