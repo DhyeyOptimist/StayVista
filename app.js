@@ -81,7 +81,7 @@ app.get("/listings", wrapAsync(async(req,res)=>{
 //new route
 app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
-})
+});
 
 //show route
 app.get("/listings/:id", wrapAsync(async (req, res) => {
@@ -93,8 +93,12 @@ app.get("/listings/:id", wrapAsync(async (req, res) => {
 //create route --> db ma data pass thase and save thase (add data ma)
 app.post("/listings", wrapAsync(async (req, res ,next) => {
   
-    let listing = req.body.listing;
-    await new Listing(listing).save();
+   if(!req.body.Listing){
+    throw new expressError(400,"send valid data");
+   }
+
+    const newListing = new Listing(req.body.listing);
+    await newListing.save();
     res.redirect("/listings");
 
 })
@@ -135,6 +139,8 @@ app.use((err,req,res,next)=>{
   // res.status(statusCode).send(message);
   res.render("error.ejs",{ message });
 });  
+
+
 
 // ✅ Debugging 404 errors2
 // app.all("*", (req, res, next) => {
