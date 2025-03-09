@@ -28,6 +28,12 @@ const listingSchema = new Schema({
         type: String,
         // enum: ["India","Nepal","Lakshadweep Islands","Andaban and Nicobar Islands","United States","Italy", "Mexico","Switzerland","Tanzania","Netherlands","Fiji","United Kingdom","Indonesia","Canada","Thailand","United Arab Emirates","Greece","Costa Rica", "Japan","Maldives"],
     },
+    reviews: [
+        {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+        },
+],
 });
 
 const Listing = mongoose.model("listing",listingSchema);
