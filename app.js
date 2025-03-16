@@ -12,7 +12,9 @@ const Listing = require("./models/listing");
 const ejsMate = require('ejs-mate');
 const wrapAsync = require("./utils/wrapAsync");
 const expressError = require("./utils/expressErrors.js");
-const { ListingSchema } = require("./schema.js");
+const { listingSchema, reviewSchema  } = require("./schema.js");
+
+const Review = require("./models/review");
 
 const app = express();
 const port = 8080;
@@ -42,8 +44,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 
+// const validateListing = (req,res,next)=>{
+//   let {error} = ListingSchema.validate(req.body);
+
+//   if(error){
+//     let errMsg = error.details.map(el => el.message).join(",");
+//     throw new expressError(400, errMsg);
+//   }else{ 
+//     next();
+//   }
+// };
 const validateListing = (req,res,next)=>{
-  let {error} = ListingSchema.validate(req.body);
+  let {error} = listingSchema.validate(req.body);
+  console.log(req.body);
+
+  if(error){
+    let errMsg = error.details.map(el => el.message).join(",");
+    throw new expressError(400, errMsg);
+  }else{ 
+    next();
+  }
+};
+
+const validatereview = (req,res,next)=>{
+  let {error} = reviewSchema.validate(req.body);
 
   if(error){
     let errMsg = error.details.map(el => el.message).join(",");
@@ -63,7 +87,6 @@ app.get("/listings", wrapAsync(async(req,res)=>{
   res.render("listings/index.ejs", {allListings});
 
 }));
-
 
 // app.get("/testListings", async (req, res) => {
 //   try {
@@ -97,7 +120,7 @@ app.get("/listings/new", (req, res) => {
 //show route
 app.get("/listings/:id", wrapAsync(async (req, res) => {
   let {id} = req.params; //to id ne extract kari then ene 
-  const listing = await Listing.findById(id); // database ma find kari
+  const listing = await Listing.findById(id).populate("reviews"); // database ma find kari
   res.render("listings/show.ejs", {listing});
 }));
 
@@ -107,7 +130,6 @@ app.post(
   validateListing,
   wrapAsync(async (req, res ,next) => {
   
-
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
@@ -139,18 +161,44 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
   res.redirect("/listings");
 }));
 
+//review 
+//post route
+app.post("/listings/:id/reviews", validatereview , wrapAsync(async (req, res) =>{
+  let listing = await Listing.findById(req.params.id);
+  let newReview = new Review(req.body.review);
+  console.log(req.body);
+  listing.reviews.push(newReview);
+
+  await newReview.save();
+  await listing.save();
+  res.redirect(`/listings/${listing._id}`);
+}));
+
+
+//delete Route review
+
+app.delete("/listings/:id",  async (req, res) => { console.log("deleting lisitng")
+  let { id } = req.params;  //to id ne extract kari then ene
+  await Listing.findByIdAndDelete(id); // database ma find and delete
+  res.redirect("/listings");
+});
+
+
 app.all("*",(req,res,next)=>{
   next(new expressError(404,"If you find this page, let us know—we lost it too"));
 });
 
+
+
+
 //expressError middle ware 
 
-app.use((err,req,res,next)=>{
+app.use((err,req,res,next)=>{ console.log(err);
   let{statusCode = 500, message = "Congratulations! You’ve discovered a secret void."} = err;
   // res.status(statusCode).send(message);
   res.render("error.ejs",{ message });
-});  
-
+  console.log(err);
+});
 
 
 // ✅ Debugging 404 errors2
