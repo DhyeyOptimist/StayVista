@@ -13,6 +13,8 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressErrors.js");
 const listings = require('./routes/listing');
 const reviews = require('./routes/review');
+const session = require('express-session');
+const flash = require("connect-flash");
 const app = express();
 const port = 8080;
 
@@ -39,9 +41,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 
-// ✅ Fixed routes
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+const sessionOptions = {
+  secret: "mysecretcode",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true,
+  },
+};
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+//middleware for flash
+app.set((req,res,next) =>{
+  res.locals.success = req.flash("success");
+  next();
+});
+app.get("/",(req,res)=>{
+  res.redirect("/listings");
+});
 
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
@@ -55,8 +78,7 @@ app.all("*",(req,res,next)=>{
 app.use((err,req,res,next)=>{ console.log(err);
   let{statusCode = 500, message = "Congratulations! You’ve discovered a secret void."} = err;
   // res.status(statusCode).send(message);
-  res.render("error.ejs",{ message });
-  console.log(err);
+  // res.render("error.ejs",{ message });
 });
 
 // ✅ Debugging 404 errors

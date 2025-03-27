@@ -24,9 +24,6 @@ router.get("/", wrapAsync(async(req,res)=>{
 
 }));
 
-
-
-
 //new route
 router.get("/new", (req, res) => {
   res.render("listings/new.ejs");
@@ -47,8 +44,8 @@ router.post(
   
     const newListing = new Listing(req.body.listing);
     await newListing.save();
+    req.flash("success", "Successfully made a new listing!");
     res.redirect("/listings");
-
 })
 );
 
