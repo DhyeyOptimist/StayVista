@@ -17,7 +17,7 @@ const session = require('express-session');
 const flash = require("connect-flash");
 const app = express();
 const port = 8080;
-const User = require("./models/user.js");
+const User = require("./models/user");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
@@ -61,12 +61,21 @@ app.use(session(sessionOptions));
 app.use(flash());
 
 app.use(passport.initialize());
-app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+app.get("/demouser",async (req,res)=>{
+  let fakeUser = new User ({
+    email: "stude@example.com",
+    username: "Stalin",
+  });
+
+  let registerUser = await User.register(fakeUser, "password@123");
+  res.send(registerUser);
+  });
 
 //middleware for flash
 app.use((req,res,next) =>{
@@ -75,7 +84,8 @@ app.use((req,res,next) =>{
   next();
 });
 
-app.get9
+// app.get("/fakeUser", async (req,res)=>{
+// }
 
 app.get("/",(req,res)=>{
   res.redirect("/listings");
