@@ -68,15 +68,15 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.get("/demouser",async (req,res)=>{
-  let fakeUser = new User ({
-    email: "stude@example.com",
-    username: "Stalin",
-  });
+// app.get("/demouser",async (req,res)=>{
+//   let fakeUser = new User ({
+//     email: "stude@example.com",
+//     username: "Stalin",
+//   });
 
-  let registeredUser = await User.register(fakeUser, "password@123");
-  res.send(registeredUser);
-  });
+//   let registeredUser = await User.register(fakeUser, "password@123");
+//   res.send(registeredUser);
+//   });
 
 //middleware for flash
 app.use((req,res,next) =>{
@@ -85,8 +85,6 @@ app.use((req,res,next) =>{
   next();
 });
 
-// app.get("/fakeUser", async (req,res)=>{
-// }
 
 app.get("/",(req,res)=>{
   res.redirect("/listings");
@@ -96,9 +94,9 @@ app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/users", userRouter);
 
-// app.all("*",(req,res,next)=>{
-//   next(new expressError(404,"If you find this page, let us know—we lost it too"));
-// });
+app.all("*",(req,res,next)=>{
+  next(new expressError(404,"If you find this page, let us know—we lost it too"));
+});
 
 //expressError middle ware 
 
