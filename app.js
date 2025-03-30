@@ -11,8 +11,9 @@ const Listing = require("./models/listing");
 const ejsMate = require('ejs-mate');
 const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressErrors.js");
-const listings = require('./routes/listing');
-const reviews = require('./routes/review');
+const listingsRouter = require('./routes/listing');
+const reviewsRouter = require('./routes/review');
+const userRouter = require('./routes/user');
 const session = require('express-session');
 const flash = require("connect-flash");
 const app = express();
@@ -73,8 +74,8 @@ app.get("/demouser",async (req,res)=>{
     username: "Stalin",
   });
 
-  let registerUser = await User.register(fakeUser, "password@123");
-  res.send(registerUser);
+  let registeredUser = await User.register(fakeUser, "password@123");
+  res.send(registeredUser);
   });
 
 //middleware for flash
@@ -91,12 +92,13 @@ app.get("/",(req,res)=>{
   res.redirect("/listings");
 });
 
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
+app.use("/listings", listingsRouter);
+app.use("/listings/:id/reviews", reviewsRouter);
+app.use("/users", userRouter);
 
-app.all("*",(req,res,next)=>{
-  next(new expressError(404,"If you find this page, let us know—we lost it too"));
-});
+// app.all("*",(req,res,next)=>{
+//   next(new expressError(404,"If you find this page, let us know—we lost it too"));
+// });
 
 //expressError middle ware 
 
