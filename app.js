@@ -45,7 +45,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 
-
 const sessionOptions = {
   secret: "mysecretcode",
   resave: false,
@@ -79,12 +78,11 @@ passport.deserializeUser(User.deserializeUser());
 //   });
 
 //middleware for flash
-app.use((req,res,next) =>{
+app.use((req,res,next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
 });
-
 
 app.get("/",(req,res)=>{
   res.redirect("/listings");
