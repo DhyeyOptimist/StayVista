@@ -25,10 +25,8 @@ router.post("/signup", WrapAsync(async(req, res) => {
       }
       req.flash("success", "Welcome to StayVista!");
     res.redirect("/listings");
-      
-    });
 
-    
+    });
   }
   catch(err){
   req.flash("error", "User Already exists!");
@@ -41,6 +39,20 @@ router.get("/login", (req, res) => {
   res.render("users/login.ejs");
 });
 
+// router.post(
+
+//   "/login",
+//   saveRedirectUrl,
+//   passport.authenticate("local",{
+//     failureRedirect: "/users/login",
+//     failureFlash: true,
+//   }),
+//   async (req, res) => {
+//     req.flash("success","Logged in successfully, Welcome back!");
+//     res.redirect(req.locals.redirectUrl);
+// }
+// );
+
 router.post(
 
   "/login",
@@ -50,8 +62,12 @@ router.post(
     failureFlash: true,
   }),
   async(req, res) => {
-    req.flash("success","Logged in successfully, Welcome back!");
-    res.redirect(req.locals.redirectUrl);
+    req.flash("success","Welcome back to wanderlust!");
+    
+
+    let redirectUrl = res.locals.redirectUrl || "/listings";
+
+    res.redirect(redirectUrl);
 }
 );
 
