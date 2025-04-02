@@ -1,9 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const { listingSchema, reviewSchema  } = require("../schema.js");
 const expressError = require("../utils/expressErrors.js");
 const Listing = require("../models/listing");
+const { isLoggedIn } = require('../middleware.js');
+
 
 const validateListing = (req,res,next)=>{
   let {error} = listingSchema.validate(req.body);
@@ -21,11 +23,10 @@ router.get("/", wrapAsync(async(req,res)=>{
   let allListings = await Listing.find({});
   // console.log(allListings);
   res.render("listings/index.ejs", {allListings});
-
 }));
 
 //new route
-router.get("/new", (req, res) => {
+router.get("/new",isLoggedIn , (req, res) => {
   res.render("listings/new.ejs");
 });
 
@@ -56,7 +57,7 @@ router.post(
 
 //Update Route 2 methods to update
 //edit route
- router.get("/:id/edit", wrapAsync(async (req, res) => {
+ router.get("/:id/edit", isLoggedIn , wrapAsync(async (req, res) => {
   let {id} = req.params;  //to id ne extract kari then ene
   const listing = await Listing.findById(id); // database ma find kari
   if(!listing){
@@ -68,7 +69,7 @@ router.post(
 
 //for updating (put request)
 
-router.put("/:id", wrapAsync(async (req, res) => {
+router.put("/:id", isLoggedIn , wrapAsync(async (req, res) => {
   let {id} = req.params;  //to id ne extract kari then ene
   await Listing.findByIdAndUpdate(id, { ...req.body.listing }); 
   req.flash("success", "Successfully Edited a listing!");
@@ -78,7 +79,7 @@ router.put("/:id", wrapAsync(async (req, res) => {
 
 //delete route
 
-router.delete("/:id", wrapAsync(async (req, res) => {
+router.delete("/:id",isLoggedIn ,  wrapAsync(async (req, res) => {
   let { id } = req.params;  //to id ne extract kari then ene
   await Listing.findByIdAndDelete(id); // database ma find and delete
   req.flash("success", "Successfully Deleted a listing!");
