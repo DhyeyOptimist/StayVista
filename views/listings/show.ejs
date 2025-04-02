@@ -17,7 +17,12 @@
             <i class="bi bi-geo-alt-fill me-2"></i>
             <%=listing.location%>, <%=listing.country%>
           </p>
-
+          <div class="mb-4">
+            <h2 class="h5 mb-3">owner details : </h2>
+            <p class="text-secondary"><%=listing.owner.username%></p>
+            <p class="text-secondary"><%=listing.owner.email%></p>
+          </div>
+        </div>
           <!-- Description -->
           <div class="mb-4">
             <h2 class="h5 mb-3">About this place</h2>
@@ -33,16 +38,24 @@
               <p class="h2 mb-4">&#8377;<%=(listing.price*86).toLocaleString("en-IN")%></p>
 
               <!-- Action Buttons -->
+             
               <div class="d-grid gap-2">
+                <% if(currentUser &&  currentUser._id.equals(lisiting.owner._id)) { %>
                 <a href="/listings/<%= listing._id %>/edit" class="btn btn-outline-primary rounded-3">
                   <i class="bi bi-pencil me-2"></i>Edit
                 </a>
-                <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+                <%}%>
+
+                <% if(currentUser &&  currentUser._id.equals(lisiting.owner._id)) { %>
+                <form method="POST" action="/listings/<%=listing._id %>?_method=DELETE">
                   <button class="btn btn-outline-danger w-100 rounded-3">
                     <i class="bi bi-trash me-2"></i>Delete
                   </button>
                 </form>
+                <%}%>
               </div>
+           
+
             </div>
           </div>
         </div>

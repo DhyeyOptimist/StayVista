@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const { data: initdata } = require("./data");
-const Listing = require("../models/listing.js") //model ne require kariyu
+const initData = require("./data.js");
+const Listing = require("../models/listing.js"); //model ne require kariyu
 
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/stayvista";
@@ -13,19 +13,16 @@ main()
         console.log(err);
     });
 
-async function main() {
+    async function main() {
+        await mongoose.connect(MONGO_URL);
+      }
+      
+      const initDB = async () => {
+        await Listing.deleteMany({});
 
-    await mongoose.connect(MONGO_URL);
-    };
-
-    const initDB = async () => {
-        try {
-            await Listing.deleteMany({});
-            await Listing.insertMany(initdata);
-            console.log("Data inserted successfully");
-        } catch (error) {
-            console.error("Error inserting data:", error);
-        }
-    };
+        initData.data = initData.data.map((obj) => ({ ...obj, owner: "67ebeb892f2f5c901fc5a900" }));
+        await Listing.insertMany(initData.data);
+        console.log("data was initialized");
+      };
 
 initDB();
