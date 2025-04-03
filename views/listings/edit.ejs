@@ -9,7 +9,7 @@
     <h3>Edit Existing Listing</h3>
 
             <br>
-            <form method="POST" action="/listings/<%= listing._id %>?_method=PUT"  novalidate class="needs-validation">
+            <form method="POST" action="/listings/<%= listing._id %>?_method=PUT"  novalidate class="needs-validation" enctype="multipart/form-data">
 
         <div class="mb-1">
             <label for="title" class="form-label">Edit Title:
@@ -21,10 +21,12 @@
             <label for="description" class="form-label">Edit Description:</label>
         <textarea name="listing[description]" placeholder="Enter Property Description"  class="form-control" value="" required><%=listing.description%></textarea><br>
         </div>
-
+<div class="mb-3"> current image: <br>
+    <img src="<%=listing.image.url%>" style="height: 100px; width: auto;">
+</div>
         <div class="mb-md-1">
-            <label for="image" class="form-label">Edit Image URL:</label>
-        <input type="text" name="listing[image]" placeholder="Enter Property Image URL" class="form-control" value="<%=listing.image%>" required > - add new url here<br>
+            <label for="image" class="form-label">Upload New Image:</label>
+        <input type="file" name="listing[image]" placeholder="Upload image file" class="form-control"   > <br>
         </div>
 
 <!-- Price and country -->

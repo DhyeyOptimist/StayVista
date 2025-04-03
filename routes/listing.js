@@ -5,6 +5,11 @@ const { listingSchema, reviewSchema  } = require("../schema.js");
 const expressError = require("../utils/expressErrors.js");
 const Listing = require("../models/listing");
 const { isLoggedIn } = require('../middleware.js');
+const { isOwner } = require('../middleware.js');
+const multer  = require('multer')
+
+const {storage} = require("../cloudConfig.js");
+const upload = multer({storage});
 
 
 const validateListing = (req,res,next)=>{
@@ -40,16 +45,22 @@ router.get("/:id", wrapAsync(async (req, res) => {
   }
   // database ma find kari
   res.render("listings/show.ejs", {listing});
-}));
+})
+);
 
 //create route --> db ma data pass thase and save thase (add data ma)
 router.post(
   "/", 
-  validateListing,
+
+  upload.single('listing[image]'),
   wrapAsync(async (req, res ,next) => {
-  
+
+    let url = req.file.path;
+    let filename = req.file.filename;
+
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id; //owner ma user id pass kariye
+    newListing.image = { url, filename };
     await newListing.save();
     req.flash("success", "Successfully made a new listing!");
     res.redirect("/listings");
@@ -58,7 +69,10 @@ router.post(
 
 //Update Route 2 methods to update
 //edit route
- router.get("/:id/edit", isLoggedIn , wrapAsync(async (req, res) => {
+ router.get("/:id/edit", isLoggedIn, isOwner , wrapAsync(async (req, res) => {
+
+  
+
   let {id} = req.params;  //to id ne extract kari then ene
   const listing = await Listing.findById(id); // database ma find kari
   if(!listing){
@@ -70,9 +84,22 @@ router.post(
 
 //for updating (put request)
 
-router.put("/:id", isLoggedIn , wrapAsync(async (req, res) => {
-  let {id} = req.params;  //to id ne extract kari then ene
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing }); 
+router.put("/:id", isLoggedIn ,isOwner, upload.single('listing[image]'), wrapAsync(async (req, res) => {
+  let { id } = req.params;  //to id ne extract kari then ene
+
+
+
+  let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }); 
+
+ 
+
+    if(typeof req.file !== "undefined"){
+      let url = req.file.path;
+      let filename = req.file.filename;
+      listing.image = { url, filename };
+    await listing.save();
+
+    }
   req.flash("success", "Successfully Edited a listing!");
   // database ma find and update
   res.redirect(`/listings/${id}`);
@@ -80,8 +107,9 @@ router.put("/:id", isLoggedIn , wrapAsync(async (req, res) => {
 
 //delete route
 
-router.delete("/:id",isLoggedIn ,  wrapAsync(async (req, res) => {
+router.delete("/:id",isLoggedIn,isOwner,  wrapAsync(async (req, res) => {
   let { id } = req.params;  //to id ne extract kari then ene
+
   await Listing.findByIdAndDelete(id); // database ma find and delete
   req.flash("success", "Successfully Deleted a listing!");
   res.redirect("/listings");

@@ -21,7 +21,7 @@
                 </li>
                 <li class="nav-item px-2">
                     <a class="nav-link fw-medium hover-underline" href="/listings">
-                        All Listings
+                        Explore
                     </a>
                 </li>
                 <li class="nav-item px-2">
@@ -32,28 +32,30 @@
             </ul>
         </div>
 
+        
+
         <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
             <!-- Main Navigation -->
              <% if (!currentUser){ %>
                 <ul class="navbar-nav mb-2 mb-md-0">
-                    <li class="nav-item px-2">
+                  
                         <a class="nav-link fw-medium hover-underline" aria-current="page" href="/users/login">
                             Login
                         </a>
-                    </li>
-                    <li class="nav-item px-2">
+
+                 
                         <a class="nav-link fw-medium hover-underline" href="/users/signup">
                             Sign Up
                         </a>
-                    </li>
+
                 <% } %>
-                <% if (currentUser){ %>
+                <% if(currentUser){ %>
             
-                <li class="nav-item px-2">
+
                     <a class="nav-link fw-medium hover-underline" href="/users/logout">
                         Logout
                     </a>
-                </li>
+
                 <% } %>
             </ul>
         </div>

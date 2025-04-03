@@ -12,10 +12,12 @@ const listingSchema = new Schema({
         // trim: true,
     },
     image: {
-        type: String,
-        default: "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-no-image-available-icon-flatvector-illustration-pic-design-profile-vector-png-image_40966566.jpg",
-        set: (v) => v === ""? "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-no-image-available-icon-flatvector-illustration-pic-design-profile-vector-png-image_40966566.jpg" : v,
-    },
+    //     type: String,
+    //     default: "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-no-image-available-icon-flatvector-illustration-pic-design-profile-vector-png-image_40966566.jpg",
+    //     set: (v) => v === ""? "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-no-image-available-icon-flatvector-illustration-pic-design-profile-vector-png-image_40966566.jpg" : v,
+    url: String,
+    filenme: String,
+},
     price: {
         type: Number,
         // min: 500,
@@ -39,7 +41,8 @@ const listingSchema = new Schema({
     owner:{
         type: Schema.Types.ObjectId,
         ref: "User",
-    }
+    },
+    
 });
 
 
