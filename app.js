@@ -1,6 +1,4 @@
-if (process.env.NODE_ENV != "production") {
-  require('dotenv').config()
-}
+require('dotenv').config();
 console.log(process.env.SECRET);
 
 const express = require('express');
@@ -22,20 +20,27 @@ const userRouter = require('./routes/user');
 const session = require('express-session');
 const flash = require("connect-flash");
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 3000;
 const User = require("./models/user");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
 // ✅ Fix: Corrected MongoDB connection
-const MONGO_URL = "mongodb://127.0.0.1:27017/stayvista";
+// const MONGO_URL = "mongodb+srv://dhyeyoptimist:6YHivaJ3MJG6Ysd@cluster0.nst68mk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const dbURL = process.env.ATLASDB_URL;
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
-  console.log("✅ Connected to DB");
+  try {
+    await mongoose.connect(dbURL);
+    console.log('✅ Database connected successfully!');
+  } catch (err) {
+    console.error('❌ Database connection error:', err.message);
+    // Exit the process if database connection fails
+    process.exit(1);
+  }
 }
 
-main().catch(err => console.log("❌ DB Connection Error:", err));
+main();
 
 // ✅ View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -105,16 +110,24 @@ app.all("*",(req,res,next)=>{
 //expressError middle ware 
 
 app.use((err,req,res,next)=>{ console.log(err);
-  let{statusCode = 500, message = "Congratulations! You’ve discovered a secret void."} = err;
+  let{statusCode = 500, message = "Congratulations! You've discovered a secret void."} = err;
   // res.status(statusCode).send(message);
   // res.render("error.ejs",{ message });
 });
 
 // ✅ Debugging 404 errors
 
-// ✅ Start server
+// ✅ Start server with error handling
 app.listen(port, () => {
   console.log(`🚀 Server running on http://localhost:${port}`);
+}).on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`❌ Port ${port} is already in use. Please try a different port.`);
+    process.exit(1);
+  } else {
+    console.error('❌ Server error:', err);
+    process.exit(1);
+  }
 });
 
 module.exports = app;
