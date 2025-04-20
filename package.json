@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "23.10.0"
+  },
   "name": "stayvista-project",
   "version": "0.0.0",
   "private": true,
@@ -8,6 +11,7 @@
   "dependencies": {
     "cloudinary": "^1.21.0",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^5.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.4.7",

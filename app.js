@@ -18,6 +18,7 @@ const listingsRouter = require('./routes/listing');
 const reviewsRouter = require('./routes/review');
 const userRouter = require('./routes/user');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const app = express();
 const port = process.env.PORT || 4000;
@@ -55,8 +56,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 
+const store = MongoStore.create({
+  mongoUrl: dbURL,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+  touchAfter: 24 * 3600,
+});
+
+store.on("error", function(err){
+  console.log("Session Store Error",err);
+});
+
 const sessionOptions = {
-  secret: "mysecretcode",
+  store,
+  secret:  process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -66,6 +80,8 @@ const sessionOptions = {
     httpOnly: true,
   },
 };
+
+
 
 app.use(session(sessionOptions));
 app.use(flash());
